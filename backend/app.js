@@ -15,7 +15,7 @@ const indexRoute = require('./routes/index');
 const verifyRoute = require('./routes/verifyToken');
 
 
-// view engine setup
+// view engine setup jah
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
