@@ -1,32 +1,27 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Navbar from './components/Navbar';
+import {BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
+import Home from './components/pages/Home';
+import Services from './components/pages/Services';
+import Products from './components/pages/Products';
+import SignUp from './components/pages/SignUp';
 
-class App extends Component {
-    constructor(props) {
-      super(props);
-      this.state = { apiResponse: "" };
-  }
 
-  callAPI() {
-      fetch("http://localhost:9000/test")
-          .then(res => res.text())
-          .then(res => console.log(res));
-  }
-
-  componentWillMount() {
-      this.callAPI();
-  }
-  render() {
-    return (
-      <div className="app">
-        <header className="App-header">
-          <h1 className="App-title">Welcome to react</h1>
-        </header>
-        <p className="App-intro">{this.state.apiResponse}</p>
-      </div>
-    )
-  }
+function App() {
+  return (
+    <>
+      <Router>
+        <Navbar />
+        <Switch>
+          <Route path="/" exact component= {Home}/>
+          <Route path="/services" component= {Services}/>
+          <Route path="/products" exact component= {Products}/>
+          <Route path="/signup" exact component= {SignUp}/>
+        </Switch>
+      </Router>
+    </>
+  );
 }
-
 
 export default App;
