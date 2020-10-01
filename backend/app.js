@@ -25,7 +25,12 @@ app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.PASSWORD}@pangaserver.ybxon.mongodb.net/${process.env.MONGO_COLLECTION}?retryWrites=true&w=majority`;
+
+//************************************************************************************************ */
+// THIS PART WILL NOT BE ADDED TO MASTER, IT IS ONLY IN INDREK DEVELOPMENT BRANCH
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.PASSWORD}@apiharjutuamiseks.fz83t.mongodb.net/${process.env.MONGO_COLLECTION}?retryWrites=true&w=majority`;
+//************************************************************************************************ */
+
 mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
 
 const connection = mongoose.connection;

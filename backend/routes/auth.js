@@ -8,7 +8,10 @@ const verify = require('./verifyToken');
 const { registerValidation, loginValidation } = require('../validation');
 
 //REGISTER
-//registers an user
+//registers an userr
+router.get('/', async (req, res) => {
+    res.send('Viva la stallman, pendejo!')
+}),
 router.post('/', async (req, res) => {
     const user = new User({
         name: req.body.name,
