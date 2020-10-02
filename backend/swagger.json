@@ -63,10 +63,24 @@
                 }
               }
             }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Email exists."
+                }
+              }
+            }
           }
         }
       }
-    }
+    } 
+
   },
   "components": {
     "schemas": {
@@ -130,7 +144,34 @@
             "password": "jalgVasak"
           }
         }
+      },
+      "LoginUser": {
+        "required": [
+          "_id",
+          "email",
+          "password"
+        ],
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "example": {
+          "user": {
+            "_id": "50",
+            "email": "kasutaja1",
+            "password": "jalgVasak"
+          }
+        }
       }
     }
   }
+
 }

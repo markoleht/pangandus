@@ -1,32 +1,57 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class SignUp extends Component {
-    constructor(props) {
-      super(props);
-      this.state = { apiResponse: "" };
+export default class SignUp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      error: null,
+      isLoaded: false,
+      items: "",
+    };
   }
 
-  callAPI() {
-      fetch("http://localhost:9000/register/")
-          .then(res => res.text())
-          .then(res => console.log(res));
+  componentDidMount() {
+      fetch('http://localhost:9000/register/')
+      // .then(res => res.json()) // comment this out for now
+      .then(res => res.text())          // convert to plain text
+      .then(text => console.log(text)) 
+
+    fetch("http://localhost:9000/register/")
+      .then(res => res.text())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            items: result.items
+          });
+        },
+        (error) => {
+          console.log(error);
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
   }
 
-  componentWillMount() {
-      this.callAPI();
-  }
   render() {
-    return (
-      <div className="app">
-        <header className="App-header">
-          <h1 className="App-title">
-              Welcome to react
+    const { error, isLoaded, items } = this.state;
+    if (error) {
+      return <div>Error: {error.message}</div>;
+    } else if (!isLoaded) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+
+        <div>
+          <h1>
+            {this.state.items}
+            {items}
           </h1>
-        </header>
-        <p className="App-intro">{this.state.apiResponse}</p>
-      </div>
-    )
+        </div>
+
+      );
+    }
   }
 }
-
-export default SignUp
