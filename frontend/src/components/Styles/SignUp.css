@@ -8,4 +8,6 @@
     align-items: center;
     box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.2);
     object-fit: contain;
+    background-image: url('/images/img-4.jpg');
+
 }

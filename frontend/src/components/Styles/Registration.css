@@ -7,11 +7,6 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #252e48; 
-    box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
-    -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
-    filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
-  
 }
 .input {
     padding: 8px 20px;
@@ -25,4 +20,7 @@
     margin-bottom: 16px;
     border: 2px solid black;
     border-radius: 1px;
+}
+hr {
+    margin-bottom: 10px;
 }

@@ -137,7 +137,25 @@
       color: #fff;
       font-size: 2rem;
     }
-  
+    .nav-links-login{
+      display: block;
+      text-align: center;
+      margin: 2rem auto;
+      border-radius: 4px;
+      width: 80%;
+      text-decoration: none;
+      font-size: 1.5rem;
+      background-color: transparent;
+      color: #fff;
+      padding: 14px 20px;
+      border: 1px solid #fff;
+      transition: all 0.3s ease-out;
+    }
+    .nav-links-login:hover{
+      background: #fff;
+      color: #242424;
+      transition: 250ms;
+    }
     .nav-links-mobile {
       display: block;
       text-align: center;
@@ -158,4 +176,5 @@
       color: #242424;
       transition: 250ms;
     }
+  
   }

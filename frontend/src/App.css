@@ -16,22 +16,24 @@
     font-size: 3rem;
   }
   
-  .services {
+  .balance {
     background-image: url('/images/img-2.jpg');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     color: #fff;
-    font-size: 100px;
+    height: 100vh;
+    font-size: 60px;
   }
   
-  .products {
+  .transfer-money {
     background-image: url('/images/img-1.jpg');
     background-position: center;
     background-size: fill;
     background-repeat: no-repeat;
     color: #fff;
-    font-size: 100px;
+    height: 100vh;
+    font-size: 60px;
   }
   
   .signup {
@@ -40,5 +42,5 @@
     background-size: cover;
     background-repeat: no-repeat;
     color: #fff;
-    font-size: 100px;
+    font-size: 60px;
   }

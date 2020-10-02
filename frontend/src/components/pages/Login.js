@@ -1,5 +1,5 @@
 import React from 'react';
-import RegistrationForm from '../Register';
+import LoginForm from '../LoginForm';
 import '../Styles/SignUp.css';
 
 export default class SignUp extends React.Component {
@@ -41,7 +41,7 @@ export default class SignUp extends React.Component {
    
     return (
       <div className="sign-up-container">
-            <RegistrationForm 
+            <LoginForm 
 
             />
       </div>

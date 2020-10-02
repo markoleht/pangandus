@@ -3,7 +3,7 @@ import { Button } from './Button';
 import './Styles/Registration.css';
  
 
-class RegistrationForm extends React.Component {
+class LoginForm extends React.Component {
     constructor(props) {
       super(props);
       this.state = {value: ''};
@@ -23,24 +23,18 @@ class RegistrationForm extends React.Component {
         <div className="form-container">
         <form onSubmit={this.handleSubmit}>
           <div>
-            <h2>Register to become our valued customer!</h2>
+            <h2>Welcome back rockstar!</h2>
           </div>
           <hr />
-          <div>
-              <input type="text" className="input"  placeholder="Name:" value={this.state.value} onChange={this.handleChange} />
-          </div>
           <div>          
               <input type="text" className="input"  placeholder="Email:" value={this.state.value} onChange={this.handleChange} />
           </div>
           <div>
             <input type="text" className="input" placeholder="Password:" value={this.state.value} onChange={this.handleChange} />
           </div>
-          <div>
-              <input type="text" className="input" placeholder="Password again:" value={this.state.value} onChange={this.handleChange} />
-          </div>
           <hr />
           
-          <Button buttonStyle="btn--primary">Sign up!</Button>
+          <Button buttonStyle="btn--primary">Log in</Button>
         </form>
         </div>
 
@@ -48,4 +42,4 @@ class RegistrationForm extends React.Component {
     }
   }
 
-  export  default RegistrationForm;
+  export  default LoginForm;
