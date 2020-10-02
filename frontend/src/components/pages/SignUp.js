@@ -1,4 +1,6 @@
 import React from 'react';
+import RegistrationForm from '../Register';
+import '../SignUp.css';
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -36,6 +38,16 @@ export default class SignUp extends React.Component {
   }
 
   render() {
+   
+    return (
+      <div className="sign-up-container">
+            <RegistrationForm 
+
+            />
+      </div>
+
+      )
+    /*
     const { error, isLoaded, items } = this.state;
     if (error) {
       return <div>Error: {error.message}</div>;
@@ -43,15 +55,15 @@ export default class SignUp extends React.Component {
       return <div>Loading...</div>;
     } else {
       return (
-
         <div>
           <h1>
             {this.state.items}
             {items}
+            <h2>Hello world</h2>
           </h1>
         </div>
-
       );
     }
+    */
   }
 }

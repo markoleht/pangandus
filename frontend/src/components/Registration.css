@@ -1,0 +1,28 @@
+.form-container {
+    margin: auto;
+    width: min-content;
+    background-color: #fff;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #252e48; 
+    box-shadow: 0 6px 20px rgba(56, 125, 255, 0.17);
+    -webkit-filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+    filter: drop-shadow(0 6px 20px rgba(56, 125, 255, 0.017));
+  
+}
+.input {
+    padding: 8px 20px;
+    border-radius: 2px;
+    margin-top: 5px;
+    margin-right: 10px;
+    margin-left: 10px;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    margin-bottom: 16px;
+    border: 2px solid black;
+    border-radius: 1px;
+}
