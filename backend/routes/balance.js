@@ -4,8 +4,10 @@ const router = express.Router();
 const authenticateToken = require('./authenticateToken')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Welcome to balance page' });
+router.get('/', authenticateToken, function(req, res, next) {
+    //for testing authentication add into headers auth-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc1NmYyMWJmMDFmMTQ0YzQ0NTQ0MDMiLCJpYXQiOjE2MDE4MDI4ODV9.P8pyn5TGPoQ986fpFvm1pKwfrvVLWaYB139oOiVWSIk
+   res.status(200).json({id: req.user._id});
+   res.render('index', { title: 'Welcome to balance page' });
 });
 
 module.exports = router;
