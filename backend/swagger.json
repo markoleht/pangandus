@@ -21,7 +21,7 @@
     }
   ],
   "paths": {
-    "/register": {
+    "/auth/register": {
       "post": {
         "tags": [
           "Register"
@@ -35,6 +35,65 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserRegistered"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Error description here"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Email exists."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login/": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "Login a user",
+        "description": "Login a user",
+        "operationId": "loginUser",
+        "requestBody": {
+          "description": "Created user session",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginuser"
               }
             }
           },
@@ -145,7 +204,7 @@
           }
         }
       },
-      "LoginUser": {
+      "loginuser": {
         "required": [
           "_id",
           "email",

@@ -41,6 +41,7 @@ export default class SignUp extends React.Component {
    
     return (
       <div className="sign-up-container">
+        <h1>Login</h1>
             <LoginForm 
 
             />

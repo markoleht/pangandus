@@ -10,7 +10,7 @@ function HeroSection() {
             <h1>Leht-Rünkaru pank</h1>
             <p> The solution and the root of all your problems</p>
             <div className="hero-btns">
-                <Button className="btns" buttonStyle='btn--outline' buttonSize='btn--large'>
+                <Button className="btns" buttonStyle='btn--outline' where="signup" buttonSize='btn--large'>
                     Join us
                 </Button>
                 <Button className="btns" buttonStyle='btn--primary' buttonSize='btn--large'>

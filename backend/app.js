@@ -12,7 +12,7 @@ var indexRouter = require('./routes/index');
 var app = express();
 const authRoute = require('./routes/auth');
 const indexRoute = require('./routes/index');
-const verifyRoute = require('./routes/verifyToken');
+const verifyRoute = require('./routes/authenticateToken');
 
 
 // view engine setup
@@ -43,7 +43,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/register', authRoute);
+app.use('/auth', authRoute);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(400));
@@ -61,6 +61,7 @@ app.use(function(err, req, res, next) {
 });
 app.listen(9000, () => {
   console.log(' listening to port 9000')
+  console.log('http://localhost:9000/api-docs')
 })
 
 module.exports = app;
