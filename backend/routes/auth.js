@@ -4,12 +4,9 @@ const Account = require('../models/Account');
 const Session = require('../models/Session');
 const { response } = require('express');
 const jwt = require('jsonwebtoken');
-// const verify = require('./verifyToken');
 const { registerValidation, loginValidation } = require('./validation');
 
-require('dotenv').config;
-//REGISTER
-//registers an userr
+require('dotenv').config();
 
 router.post('/register', async (req, res) => {
     const user = new User({
@@ -44,14 +41,15 @@ router.post('/login',  async (req, res) => {
         res.json(session);
         //CREATE AND ASSIGN A TOKEN
         const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-        res.header('auth-token', token).send(token);
-        res.send(token);
-        res.send('Logged in!');
+        res.header('auth-token', token).json({access_token: token});
+        res.json('Logged in!');
+        res.status(200);
     } catch (e) {
         res.statusCode = 409
         res.json({message: err });
         res.json('The session was not initiated.');
     }
+    // This part returns errors if email or password are incorrect
     const {error} = loginValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 

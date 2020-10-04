@@ -4,7 +4,8 @@ const router = express.Router();
 const authenticateToken = require('./authenticateToken')
 
 /* GET home page. */
-router.get('/', authenticateToken, function(req, res, next) {
-  res.render('index', { title: 'Welcome to Bank' });
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Welcome to balance page' });
 });
+
 module.exports = router;

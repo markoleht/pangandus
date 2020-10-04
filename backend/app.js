@@ -12,6 +12,8 @@ var indexRouter = require('./routes/index');
 var app = express();
 const authRoute = require('./routes/auth');
 const indexRoute = require('./routes/index');
+const balanceRoute = require('./routes/balance');
+const transferRoute = require('./routes/transfer');
 const verifyRoute = require('./routes/authenticateToken');
 
 
@@ -44,6 +46,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/auth', authRoute);
+app.use('/index', indexRouter);
+app.use('/balance', balanceRoute);
+app.use('/transfer', transferRoute);
+ 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(400));
