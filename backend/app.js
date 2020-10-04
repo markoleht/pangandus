@@ -46,10 +46,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/auth', authRoute);
-app.use('/index', indexRouter);
 app.use('/balance', balanceRoute);
 app.use('/transfer', transferRoute);
- 
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(400));

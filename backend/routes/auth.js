@@ -38,8 +38,6 @@ router.post('/login',  async (req, res) => {
         
     try {
         const session = await legitSession.save();
-        res.json(session);
-        //CREATE AND ASSIGN A TOKEN
         const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
         res.header('auth-token', token).json({access_token: token});
         res.json('Logged in!');
