@@ -2,9 +2,7 @@ const router = require('express').Router();
 const User = require('../models/User');
 const Account = require('../models/Account');
 const Session = require('../models/Session');
-const { response } = require('express');
 const jwt = require('jsonwebtoken');
-const { registerValidation, loginValidation } = require('./validation');
 const authenticateToken = require('./authenticateToken')
 
 require('dotenv').config();
@@ -25,8 +23,6 @@ router.post('/register', async (req, res) => {
         //res.json({message: err });
         res.json('Email exists.');
     }
-    const {error} = registerValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
 });
 
 //LOGIN
@@ -42,16 +38,14 @@ router.post('/session',  async (req, res) => {
         const session = await legitSession.save();
         const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
         res.header('auth-token', token);
-        res.json('Logged in!');
+        res.json({"message": "Logged in", "token": token});
         res.status(200);
     } catch (e) {
         res.statusCode = 409
-        res.json({message: err });
+        res.json({"message": e });
         res.json('The session was not initiated.');
     }
     // This part returns errors if email or password are incorrect
-    const {error} = loginValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
 
 });
 router.get('/session', authenticateToken, async (req, res) => {
