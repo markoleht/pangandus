@@ -1,15 +1,13 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const Account = require('../models/Account');
-const bcrypt = require('bcrypt');
-const { response } = require('express');
+const Session = require('../models/Session');
 const jwt = require('jsonwebtoken');
-const verify = require('./verifyToken');
-const { registerValidation, loginValidation } = require('../validation');
+const authenticateToken = require('./authenticateToken')
 
-//REGISTER
-//registers an user
-router.post('/', async (req, res) => {
+require('dotenv').config();
+
+router.post('/register', async (req, res) => {
     const user = new User({
         name: req.body.name,
         email: req.body.email,
@@ -28,25 +26,35 @@ router.post('/', async (req, res) => {
 });
 
 //LOGIN
-
-router.post('/login',  async (req, res) => {
-
-    const {error} = loginValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
-
-//LETS MAKE SURE THE EMAIL IS NOT ALREADY IN THE DATABASE
-
+router.post('/session',  async (req, res) => {
+    const legitSession = new Session({
+        email: req.body.email,
+        password: req.body.password
+    });
     const user = await User.findOne({email: req.body.email});
     if (!user) return res.status(400).send('wrong email or password');
-    //PASSWORD IS CORRECT
-    const validPass = await bcrypt.compare(req.body.password,user.password);
-    if(!validPass) return res.status(400).send('Invalid password')
+    if(req.body.password !== user.password) return res.status(400).send('Wrong password');
+    try {
+        const session = await legitSession.save();
+        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+        const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, {expiresIn: '1800s'});
+        res.header('auth-token', token);
+        res.json({"message": "Logged in", "token": token});
+        res.status(200);
+    } catch (e) {
+        res.statusCode = 409
+        res.json({"message": e });
+        res.json('The session was not initiated.');
+    }
+    // This part returns errors if email or password are incorrect
 
-    //CREATE AND ASSIGN A TOKEN
-
-    const token =jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
-    res.header('auth-token', token).send(token);
-    res.send('Logged in!');
 });
+router.delete('/session', authenticateToken, async (req, res, next) => {
+    const token = null;
+    res.header('auth-token', token);
+    res.json({"message": "Logged out"});
+    res.status(200);
+    res.redirect('./index.js').send({ title: 'Hasta la vista, baby'});
+})
 
 module.exports = router;

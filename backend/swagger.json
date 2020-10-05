@@ -1,136 +1,312 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.2",
   "info": {
-    "title": "Instu ja Marksi pank",
-    "description": "Bank api",
-    "contact": {
-      "email": "marko.leht@khk.ee"
-    },
-    "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
-    },
-    "version": "1.0.0"
+      "title": "pank-main",
+      "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "http://localhost:9000/"
-    },
-    {
-      "url": "http://petstore.swagger.io/v2"
+        "url": "http://localhost:9000",
+        "description": "Local server for testing purposes"
     }
-  ],
+],
   "paths": {
-    "/register": {
-      "post": {
-        "tags": [
-          "Register"
-        ],
-        "summary": "Register a user",
-        "description": "Register a user",
-        "operationId": "registerUser",
-        "requestBody": {
-          "description": "Created user object",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/User"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/UserRegistered"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ErrorResponse"
+      "/auth/register": {
+          "post": {
+              "requestBody": {
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/postRegisterUserResponse"
+                          }
+                      }
+                  },
+                  "required": true
+              },
+              "servers": [
+                  {
+                      "url": "http://localhost:9000",
+                      "description": "register user"
+                  }
+              ],
+              "tags": [
+                  "register"
+              ],
+              "responses": {
+                  "200": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/postRegisterUserResponse"
+                              }
+                          }
+                      },
+                      "description": "User and Account created succsessfully."
+                  },
+                  "409": {
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/emailExistsAlready"
+                              }
+                          }
+                      },
+                      "description": "Email exists."
+                  }
+              },
+              "summary": "RegisterUser"
+          }
+      },
+      "/auth/session": {
+        "post": {
+            "requestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/postLoginResponse"
+                        }
+                    }
                 },
-                "example": {
-                  "error": "Error description here"
+                "required": true
+            },
+
+            "tags": [
+                "session"
+            ],
+            "responses": {
+                "200": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/postLoginResponseSuccess"
+                            }
+                        }
+                    },
+                    "description": "User logged in successfully."
+                },
+                "400": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/wrongLoginInput"
+                            }
+                        }
+                    },
+                    "description": "User has added either the wrong email or password."
                 }
+            },
+            "summary": "Login a user & start a session."
+        },
+        "delete": {
+          "parameters": [
+              {
+                  "name": "auth-token",
+                  "description": "For session to end it needs to first have auth-token what can be ended.",
+                  "schema": {
+                    "$ref": "#/components/schemas/deleteSessionExample"
+                  },
+                  "in": "header",
+                  "required": true
               }
+          ],          
+          "tags": [
+            "session"
+        ],
+          "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/deleteSession"
+                          }
+                      }
+                  },
+                  "description": "Session has ended."
+              }
+          },
+          "summary": "End user session"
+      }
+      },
+      "/balance": {
+        "get": {
+          "tags": [
+            "balance"
+          ],
+          "responses": {
+            "401":{
+              "$ref": "#/components/schemas/unauthorizedError"
+            }
+          }
+        }
+      },
+      "/balance": {
+        "get": {
+          "tags": [
+            "balance"
+          ],
+          "responses": {
+            "401":{
+              "$ref": "#/components/schemas/unauthorizedError"
             }
           }
         }
       }
-    }
+      
   },
   "components": {
-    "schemas": {
-      "ErrorResponse": {
-        "required": [
-          "error"
-        ],
-        "type": "object",
-        "properties": {
-          "error": {
-            "type": "string"
+        "securitySchemas":{
+          "bearerAuth":{
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
           }
-        }
-      },
-      "User": {
-        "required": [
-          "name",
-          "email",
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
-        }
-      },
-      "UserRegistered": {
-        "required": [
-          "_id",
-          "name",
-          "email",
-          "password"
-        ],
-        "type": "object",
-        "properties": {
-          "_id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "password": {
-            "type": "string"
-          }
+
         },
-        "example": {
-          "user": {
-            "_id": "50",
-            "email": "kasutaja1",
-            "name": "Savisaar",
-            "password": "jalgVasak"
+      "schemas": {
+          "postRegisterUserResponse": {
+              "title": "Root Type for registerUser",
+              "description": "",
+              "type": "object",
+              "properties": {
+                  "name": {
+                      "description": "Name of the user for paperwork. Needs to be 6 letters long because JOI is doing the input validation.",
+                      "type": "string"
+                  },
+                  "email": {
+                      "description": "Email for loggining in and checking that users do not repeat.",
+                      "type": "string"
+                  },
+                  "password": {
+                      "description": "For sigining into the bank, Needs to be 6 letters long because JOI is doing the validation.",
+                      "type": "string"
+                  }
+              },
+              "example": {
+                  "name": "Toomas",
+                  "email": "tom@gmail.com",
+                  "password": "qwerty"
+              }
+          },
+          "postLoginResponse": {
+            "title": "Root Type for logging user in",
+            "description": "",
+            "type": "object",
+            "properties": {
+                "email": {
+                    "description": "Email for loggining in and checking that users do not repeat.",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "For sigining into the bank, Needs to be 6 letters long because JOI is doing the validation.",
+                    "type": "string"
+                }
+            },
+            "example": {
+                "email": "tom@gmail.com",
+                "password": "qwerty"
+            }
+          },
+          "postLoginResponseSuccess": {
+          "title": "Root Type for logging user in",
+          "description": "",
+          "type": "object",
+          "properties": {
+              "email": {
+                  "description": "Email for loggining in and checking that users do not repeat.",
+                  "type": "string"
+              },
+              "password": {
+                  "description": "For sigining into the bank, Needs to be 6 letters long because JOI is doing the validation.",
+                  "type": "string"
+              }
+          },
+          "example": {
+            
+            "": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc5YmZhYTRmYjI1NTUwNjgyY2FlODAiLCJpYXQiOjE2MDE4MjE0Nzl9.t0H3PgknnFi5B0jaZTtYPycJYHQeedW_zPxEF7M8Oo0"
           }
-        }
+          },
+            "wrongLoginInput": {
+              "title": "Root Type for errorResponse",
+              "description": "Response body for all errors",
+              "type": "object",
+              "properties": {
+                  "error": {
+                      "type": "string"
+                  }
+              },
+              "example": {
+                  "error": "Wrong password"
+              }
+          },
+          "errorResponse": {
+              "title": "Root Type for errorResponse",
+              "description": "Response body for all errors",
+              "type": "object",
+              "properties": {
+                  "error": {
+                      "type": "string"
+                  }
+              },
+              "example": {
+                  "error": "Error description here"
+              }
+          },
+          "deleteSession": {
+            "title": "Delete session",
+            "description": "Remove session token from the header.",
+            "type": "object",
+            "properties": {
+                "response": {
+                    "description": "Email already exists.",
+                    "type": "string"
+                }
+            },
+            "example": {
+              "message": "Logged out"
+            }
+          },
+          "deleteSessionExample": {
+            "title": "Delete session",
+            "description": "Remove session token from the header.",
+            "type": "object",
+            "properties": {
+                "response": {
+                    "description": "Email already exists.",
+                    "type": "string"
+                }
+            },
+            "example": {
+              "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc5YmZhYTRmYjI1NTUwNjgyY2FlODAiLCJpYXQiOjE2MDE4MjE0Nzl9.t0H3PgknnFi5B0jaZTtYPycJYHQeedW_zPxEF7M8Oo0"   
+            }
+          },
+          "emailExistsAlready": {
+              "title": "Root Type for emailExistsAlready",
+              "description": "Server checks if the new user email already exists",
+              "type": "object",
+              "properties": {
+                  "response": {
+                      "description": "Email already exists.",
+                      "type": "string"
+                  }
+              },
+              "example": {
+                  "response": "Email already exists"
+              }
+          },
+          "unauthorizedError": {
+            "title": "Unauhthorized",
+            "description": "User that has no header auth-token is unauhtorized",
+            "type": "object",
+            "properties": {
+                "response": {
+                    "description": "Access denied",
+                    "type": "string"
+                }
+            },
+            "example": {
+                "response": "Access denied!"
+            }
+          }
       }
-    }
   }
 }

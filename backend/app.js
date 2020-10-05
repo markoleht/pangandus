@@ -12,7 +12,9 @@ var indexRouter = require('./routes/index');
 var app = express();
 const authRoute = require('./routes/auth');
 const indexRoute = require('./routes/index');
-const verifyRoute = require('./routes/verifyToken');
+const balanceRoute = require('./routes/balance');
+const transferRoute = require('./routes/transfer');
+const verifyRoute = require('./routes/authenticateToken');
 
 
 // view engine setup jah ei .....eeee ikkagi jah
@@ -25,7 +27,12 @@ app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.PASSWORD}@pangaserver.ybxon.mongodb.net/${process.env.MONGO_COLLECTION}?retryWrites=true&w=majority`;
+
+//************************************************************************************************ */
+// THIS PART WILL NOT BE ADDED TO MASTER, IT IS ONLY IN INDREK DEVELOPMENT BRANCH
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.PASSWORD}@apiharjutuamiseks.fz83t.mongodb.net/${process.env.MONGO_COLLECTION}?retryWrites=true&w=majority`;
+//************************************************************************************************ */
+
 mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
 
 const connection = mongoose.connection;
@@ -38,7 +45,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/register', authRoute);
+app.use('/auth', authRoute);
+app.use('/balance', balanceRoute);
+app.use('/transfer', transferRoute);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(400));
@@ -56,6 +66,7 @@ app.use(function(err, req, res, next) {
 });
 app.listen(9000, () => {
   console.log(' listening to port 9000')
+  console.log('http://localhost:9000/api-docs')
 })
 
 module.exports = app;
