@@ -36,7 +36,8 @@ router.post('/session',  async (req, res) => {
     if(req.body.password !== user.password) return res.status(400).send('Wrong password');
     try {
         const session = await legitSession.save();
-        const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET);
+        const refreshToken = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET)
+        const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET, {expiresIn: '1800s'});
         res.header('auth-token', token);
         res.json({"message": "Logged in", "token": token});
         res.status(200);
@@ -48,13 +49,10 @@ router.post('/session',  async (req, res) => {
     // This part returns errors if email or password are incorrect
 
 });
-router.get('/session', authenticateToken, async (req, res) => {
-    res.send('asjd')
-})
 router.delete('/session', authenticateToken, async (req, res, next) => {
     const token = null;
     res.header('auth-token', token);
-    res.json('Logged out!');
+    res.json({"message": "Logged out"});
     res.status(200);
     res.redirect('./index.js').send({ title: 'Hasta la vista, baby'});
 })

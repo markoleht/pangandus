@@ -96,10 +96,72 @@
                 }
             },
             "summary": "Login a user & start a session."
+        },
+        "delete": {
+          "parameters": [
+              {
+                  "name": "auth-token",
+                  "description": "For session to end it needs to first have auth-token what can be ended.",
+                  "schema": {
+                    "$ref": "#/components/schemas/deleteSessionExample"
+                  },
+                  "in": "header",
+                  "required": true
+              }
+          ],          
+          "tags": [
+            "session"
+        ],
+          "responses": {
+                  "200": {
+                    "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/deleteSession"
+                          }
+                      }
+                  },
+                  "description": "Session has ended."
+              }
+          },
+          "summary": "End user session"
+      }
+      },
+      "/balance": {
+        "get": {
+          "tags": [
+            "balance"
+          ],
+          "responses": {
+            "401":{
+              "$ref": "#/components/schemas/unauthorizedError"
+            }
+          }
         }
-    }
+      },
+      "/balance": {
+        "get": {
+          "tags": [
+            "balance"
+          ],
+          "responses": {
+            "401":{
+              "$ref": "#/components/schemas/unauthorizedError"
+            }
+          }
+        }
+      }
+      
   },
   "components": {
+        "securitySchemas":{
+          "bearerAuth":{
+            "type": "http",
+            "scheme": "bearer",
+            "bearerFormat": "JWT"
+          }
+
+        },
       "schemas": {
           "postRegisterUserResponse": {
               "title": "Root Type for registerUser",
@@ -143,8 +205,8 @@
                 "email": "tom@gmail.com",
                 "password": "qwerty"
             }
-        },
-        "postLoginResponseSuccess": {
+          },
+          "postLoginResponseSuccess": {
           "title": "Root Type for logging user in",
           "description": "",
           "type": "object",
@@ -159,23 +221,23 @@
               }
           },
           "example": {
-            "message": "Logged in",
-            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc5YmZhYTRmYjI1NTUwNjgyY2FlODAiLCJpYXQiOjE2MDE4MjE0Nzl9.t0H3PgknnFi5B0jaZTtYPycJYHQeedW_zPxEF7M8Oo0"
+            
+            "": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc5YmZhYTRmYjI1NTUwNjgyY2FlODAiLCJpYXQiOjE2MDE4MjE0Nzl9.t0H3PgknnFi5B0jaZTtYPycJYHQeedW_zPxEF7M8Oo0"
           }
-      },
-        "wrongLoginInput": {
-          "title": "Root Type for errorResponse",
-          "description": "Response body for all errors",
-          "type": "object",
-          "properties": {
-              "error": {
-                  "type": "string"
+          },
+            "wrongLoginInput": {
+              "title": "Root Type for errorResponse",
+              "description": "Response body for all errors",
+              "type": "object",
+              "properties": {
+                  "error": {
+                      "type": "string"
+                  }
+              },
+              "example": {
+                  "error": "Wrong password"
               }
           },
-          "example": {
-              "error": "Wrong password"
-          }
-      },
           "errorResponse": {
               "title": "Root Type for errorResponse",
               "description": "Response body for all errors",
@@ -188,6 +250,34 @@
               "example": {
                   "error": "Error description here"
               }
+          },
+          "deleteSession": {
+            "title": "Delete session",
+            "description": "Remove session token from the header.",
+            "type": "object",
+            "properties": {
+                "response": {
+                    "description": "Email already exists.",
+                    "type": "string"
+                }
+            },
+            "example": {
+              "message": "Logged out"
+            }
+          },
+          "deleteSessionExample": {
+            "title": "Delete session",
+            "description": "Remove session token from the header.",
+            "type": "object",
+            "properties": {
+                "response": {
+                    "description": "Email already exists.",
+                    "type": "string"
+                }
+            },
+            "example": {
+              "auth-token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1Zjc5YmZhYTRmYjI1NTUwNjgyY2FlODAiLCJpYXQiOjE2MDE4MjE0Nzl9.t0H3PgknnFi5B0jaZTtYPycJYHQeedW_zPxEF7M8Oo0"   
+            }
           },
           "emailExistsAlready": {
               "title": "Root Type for emailExistsAlready",
@@ -202,6 +292,20 @@
               "example": {
                   "response": "Email already exists"
               }
+          },
+          "unauthorizedError": {
+            "title": "Unauhthorized",
+            "description": "User that has no header auth-token is unauhtorized",
+            "type": "object",
+            "properties": {
+                "response": {
+                    "description": "Access denied",
+                    "type": "string"
+                }
+            },
+            "example": {
+                "response": "Access denied!"
+            }
           }
       }
   }
